@@ -1,4 +1,4 @@
-# FirstBeam / Lighthouse Concierge 🗼
+# FirstBeam
 
 FirstBeam is a local-first AI productivity companion that helps people overcome procrastination by turning overwhelming tasks into small, emotionally manageable next steps. It combines a **Google ADK multi-agent backend architecture** with a mobile-first **Serverless Progressive Web App (PWA)** interface focused on starting rather than simply listing work.
 
