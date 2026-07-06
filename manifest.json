@@ -1,0 +1,22 @@
+{
+  "name": "FirstBeam Focus",
+  "short_name": "FirstBeam",
+  "description": "Anti-Procrastination Task Breakdown AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/apple-touch-icon_副本.png",
+      "sizes": "2048x2048",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon_副本.png",
+      "sizes": "2048x2048",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

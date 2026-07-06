@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FirstBeam - Lighthouse Concierge</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- Import Styles & Logic -->
+    <link rel="stylesheet" href="/static/index.v53.css?v=32">
+</head>
+<body>
+    <!-- App Container (Fluid for Responsive) -->
+    <div id="app-container">
+        <!-- Global Background -->
+        <div class="bg-illustration app-bg"></div>
+        
+        <!-- Global Timer Banner -->
+        <div id="global-timer-banner" class="global-timer-banner" style="display: none;" onclick="navigateTo('view-focus')">
+            <div class="banner-content">
+                <i class="fa-solid fa-stopwatch banner-icon"></i>
+                <div class="banner-text">
+                    <span id="global-timer-title" class="banner-title">Task Title</span>
+                    <span id="global-timer-display" class="banner-time">25:00</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right banner-arrow"></i>
+        </div>
+        
+        <!-- VIEW 1: HOME (Tonight's Beacon) - Strict Immersive Flex Layout -->
+        <div id="view-home" class="view active view-with-bg">
+            
+            <!-- Home-only Top Bar -->
+            <header class="top-bar" style="justify-content: space-between; z-index: 9999; pointer-events: none;">
+                <div class="logo-centered" style="margin: 0; justify-content: flex-start; pointer-events: auto;">
+                    <span>FirstBeam</span>
+                </div>
+                <button class="btn-primary btn-new-task-small" id="btn-home-new-task" onclick="openNewBeaconModal()" style="pointer-events: auto; cursor: pointer;">
+                    <i class="fa-solid fa-plus"></i> New Task
+                </button>
+            </header>
+
+            <div class="home-flex-container">
+                <!-- Top Section (Pushes down card) -->
+                <div class="content-padding home-header-spacing">
+                    <h1 class="serif-title massive-title" style="font-size: 1.2rem; letter-spacing: normal;">Tonight's Beacon</h1>
+                    
+                    <div class="status-badge mt-1">
+                        <span class="status-dot dot-orange"></span> Fading
+                    </div>
+                    
+                    <p class="hero-text">
+                        Your signal is still here.<br>
+                        Let's keep it warm<br>
+                        with one small step.
+                    </p>
+                </div>
+
+                <!-- Scrollable Feed of Active Tasks -->
+                <main class="scrollable-content" style="padding-top: 20px;">
+                    <div class="task-list" id="home-active-feed">
+                        <!-- Dynamic active tasks will be inserted here -->
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- VIEW 2: TASK LIST (Your Beacons) - Fixed Header + Scrollable Area -->
+        <div id="view-list" class="view">
+            <div class="bg-night-sky"></div>
+            
+            <!-- Fixed Header -->
+            <div class="fixed-header-section">
+                <div class="list-header-row" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="logo-centered" style="margin: 0; justify-content: flex-start;">
+                        <span>Your Beacons</span>
+                    </div>
+                    <button class="btn-primary btn-new-task-small" id="btn-new-beacon">
+                        <i class="fa-solid fa-plus"></i> New Task
+                    </button>
+                </div>
+                <p class="subtitle" style="margin-top: 8px;">Active signals guiding your progress.</p>
+            </div>
+            
+            <!-- Scrollable List Area -->
+            <main class="scrollable-content">
+                <div class="task-list" id="active-beacons-list">
+                    <!-- Dynamic tasks will be inserted here -->
+                </div>
+            </main>
+
+            <!-- Sticky Momentum Bar (Absolute positioned above scroll area) -->
+            <div class="sticky-momentum-bar" onclick="navigateTo('view-list')" style="cursor: pointer;">
+                <div class="momentum-icon"><i class="fa-solid fa-fire text-orange"></i></div>
+                <div class="momentum-text">
+                    <strong><span id="active-count">0</span> <span id="active-count-label">active beacons</span></strong>
+                    <span>Keep showing up. You're building momentum.</span>
+                </div>
+                <div class="momentum-star"><i class="fa-solid fa-star text-gold"></i></div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: ARCHIVE (Relight) -->
+        <div id="view-archive" class="view">
+            <div class="bg-night-sky"></div>
+            
+            <!-- Fixed Header -->
+            <div class="fixed-header-section">
+                <div class="list-header-row" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="logo-centered" style="margin: 0; justify-content: flex-start;">
+                        <span>Relight</span>
+                    </div>
+                </div>
+                <p class="subtitle" style="margin-top: 8px;">Your archived beacons</p>
+                
+                <div class="insight-banner mt-3">
+                    <i class="fa-solid fa-sparkles text-gold"></i>
+                    <div>
+                        <strong>Nothing is ever truly lost.</strong><br>
+                        <span class="text-secondary">Some beacons just need time.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrollable List Area -->
+            <main class="scrollable-content">
+                <div class="task-list archive-list" id="archived-beacons-list">
+                    <!-- Dynamic archived tasks inserted here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- VIEW 4: TOWER (Task Detail) - Scrollable -->
+        <div id="view-detail" class="view view-with-bg">
+            
+            <header class="detail-header">
+                <button class="btn-back" id="btn-detail-back"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="logo-small"><i class="fa-solid fa-lighthouse glow-icon"></i> FirstBeam</div>
+                <div style="width: 36px;"></div>
+            </header>
+
+            <main class="scrollable-content" style="padding-top: 80px;">
+                <div class="content-padding">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <h1 class="serif-title" id="detail-task-title" style="margin: 0;">Task Title</h1>
+                        <div class="task-actions" style="display: flex; gap: 16px; align-items: center;">
+                            <i class="fa-solid fa-pen text-muted" id="btn-edit-main-task" style="cursor: pointer; font-size: 1.2rem;"></i>
+                            <i class="fa-solid fa-trash" id="btn-delete-main-task" style="cursor: pointer; color: rgba(249,115,22,0.8); font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                    <p class="subtitle" id="detail-task-desc">A clear path to confident completion.</p>
+                    
+                    <div class="tower-container">
+                        <div class="tower-left">
+                            <div class="callout-card">
+                                <div class="card-label">
+                                    <i class="fa-solid fa-sparkles text-gold"></i> Recommended next step
+                                </div>
+                                <h3 id="tower-next-step">Step title</h3>
+                                <div class="card-meta">
+                                    <i class="fa-regular fa-clock"></i> <span id="tower-next-time">-- min</span> • Low effort
+                                </div>
+                            </div>
+
+                            <div class="progress-widget">
+                                <div class="progress-circle">
+                                    <span id="tower-progress-num">0/3</span>
+                                    <span class="small-text">steps done</span>
+                                </div>
+                                <div class="progress-msg">
+                                    <strong><i class="fa-solid fa-sparkles text-gold"></i> Keep going!</strong>
+                                    <span>You're building confidence.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tower-right" id="tower-floors">
+                            <!-- Dynamically inserted floors -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- VIEW 4.5: FOCUS MODE (Pomodoro & Lamp Animation) -->
+        <div id="view-focus" class="view">
+            <div class="bg-night-sky"></div>
+            
+            <header class="detail-header">
+                <button class="btn-back" id="btn-focus-back"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="logo-small"><i class="fa-solid fa-lighthouse glow-icon"></i> Focus</div>
+                <div style="width: 36px;"></div>
+            </header>
+
+            <div class="home-flex-container" style="align-items: center; justify-content: center; text-align: center;">
+                <h2 class="serif-title" style="font-size: 2rem;" id="focus-task-title">Task Title</h2>
+                <p class="text-secondary mt-1">Light up the dark with your focus.</p>
+
+                <!-- Lamp Animation Container -->
+                <div class="lamp-container mt-4">
+                    <div class="lamp-beam" id="lamp-beam"></div>
+                    <i class="fa-solid fa-lighthouse lamp-icon"></i>
+                </div>
+
+                <!-- Timer -->
+                <div class="focus-timer mt-4" id="focus-timer-display">25:00</div>
+                
+                <div class="focus-controls mt-4" style="display: flex; gap: 16px; width: 100%; max-width: 300px; margin: 0 auto; margin-top: 40px; position: relative; z-index: 20;">
+                    <button class="btn-secondary-outlined" style="flex: 1;" id="btn-focus-pause">Pause</button>
+                    <button class="btn-primary" style="flex: 1;" id="btn-focus-complete">Finish</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 5: PROFILE -->
+        <div id="view-profile" class="view">
+            <div class="bg-night-sky"></div>
+            
+            <div class="fixed-header-section">
+                <div class="list-header-row" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="logo-centered" style="margin: 0; justify-content: flex-start;">
+                        <span>Your Profile</span>
+                    </div>
+                </div>
+                <p class="subtitle" style="margin-top: 8px;">Settings and preferences</p>
+            </div>
+
+            <main class="scrollable-content">
+                <div class="content-padding mt-2">
+                    <div class="insight-banner">
+                        <i class="fa-solid fa-sparkles text-gold"></i>
+                        <div>
+                            <strong>AI Task Breakdown Personalization</strong><br>
+                            <span class="text-secondary">Tailored by cognitive profile.</span>
+                        </div>
+                    </div>
+
+                    <!-- API KEY CONFIGURATION -->
+                    <div class="task-card mt-3">
+                        <div class="task-card-header">
+                            <h3><i class="fa-solid fa-key text-gold"></i> API Configuration</h3>
+                        </div>
+                        <p class="text-secondary mt-1" style="font-size: 0.85rem;">Bring your own Gemini API Key to power the Lighthouse Concierge.</p>
+                        
+                        <div class="form-group mt-3">
+                            <label for="api-key-input" style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Gemini API Key</label>
+                            <input type="password" id="api-key-input" placeholder="AIzaSy..." style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:var(--text-primary); outline:none;" />
+                        </div>
+                        <button id="btn-save-api-key" class="btn-primary btn-glow mt-3">Verify Key</button>
+                    </div>
+                    
+                    <div class="form-group mt-4">
+                        <select id="mbti-select" style="background: var(--card-bg);">
+                            <optgroup label="Analysts (Intuitive & Thinking)">
+                                <option value="INTJ">INTJ (Strategic & Direct)</option>
+                                <option value="INTP">INTP (Logical & Analytical)</option>
+                                <option value="ENTJ">ENTJ (Commanding & Efficient)</option>
+                                <option value="ENTP">ENTP (Curious & Challenging)</option>
+                            </optgroup>
+                            <optgroup label="Diplomats (Intuitive & Feeling)">
+                                <option value="INFJ">INFJ (Insightful & Inspiring)</option>
+                                <option value="INFP">INFP (Gentle & Validating)</option>
+                                <option value="ENFJ">ENFJ (Warm & Guiding)</option>
+                                <option value="ENFP">ENFP (Enthusiastic & Encouraging)</option>
+                            </optgroup>
+                            <optgroup label="Sentinels (Observant & Judging)">
+                                <option value="ISTJ">ISTJ (Practical & Methodical)</option>
+                                <option value="ISFJ">ISFJ (Step-by-step & Reassuring)</option>
+                                <option value="ESTJ">ESTJ (Structured & Firm)</option>
+                                <option value="ESFJ">ESFJ (Supportive & Caring)</option>
+                            </optgroup>
+                            <optgroup label="Explorers (Observant & Prospecting)">
+                                <option value="ISTP">ISTP (Bold & Pragmatic)</option>
+                                <option value="ISFP">ISFP (Flexible & Harmonious)</option>
+                                <option value="ESTP">ESTP (Energetic & Action-oriented)</option>
+                                <option value="ESFP">ESFP (Spontaneous & Cheerful)</option>
+                            </optgroup>
+                            <option value="">Skip / No Preference</option>
+                        </select>
+                    </div>
+
+                    <!-- Historical Stats -->
+                    <h2 class="serif-title mt-4" style="font-size: 1.4rem;">Historical Stats</h2>
+                    <div class="tower-container" style="padding: 0; flex-wrap: wrap; margin-top: 16px;">
+                        <div class="callout-card" style="flex: 1; min-width: 140px; text-align: center;">
+                            <div class="card-meta">Beacons Lit</div>
+                            <h3 id="stat-tasks" style="font-size: 2rem; color: var(--gold); margin-top: 8px;">0</h3>
+                        </div>
+                        <div class="callout-card" style="flex: 1; min-width: 140px; text-align: center;">
+                            <div class="card-meta">Focus Minutes</div>
+                            <h3 id="stat-minutes" style="font-size: 2rem; color: var(--gold); margin-top: 8px;">0</h3>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" id="btn-analyze-habits" style="flex: 1; min-width: 140px; white-space: nowrap; font-size: 0.9rem;">
+                            <i class="fa-solid fa-brain"></i> Analyze Habits
+                        </button>
+                        <button class="btn btn-secondary-outlined" id="btn-export-data" style="flex: 1; min-width: 90px; white-space: nowrap; font-size: 0.9rem;">
+                            <i class="fa-solid fa-file-export"></i> Export
+                        </button>
+                        <button class="btn btn-secondary-outlined" id="btn-import-data" style="flex: 1; min-width: 90px; white-space: nowrap; font-size: 0.9rem;">
+                            <i class="fa-solid fa-file-import"></i> Import
+                        </button>
+                        <input type="file" id="file-import-data" style="display: none;" accept=".json">
+                    </div>
+                    
+                    <div id="habit-profile-container" class="callout-card mt-4" style="display: none;">
+                        <h3 class="serif-title" style="font-size: 1.1rem; color: var(--gold);"><i class="fa-solid fa-chart-line"></i> Habit Profile</h3>
+                        <p id="habit-profile-text" class="card-desc mt-2" style="font-size: 0.9rem; line-height: 1.5; color: var(--text-color);">No analysis yet.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- SUBTASK ACTION MODAL -->
+        <div id="modal-subtask-action" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 class="serif-title" id="action-subtask-title">Subtask Options</h2>
+                    <p class="subtitle">What would you like to do with this step?</p>
+                </div>
+                
+                <button id="btn-action-focus" class="btn-primary btn-glow btn-full mt-3">
+                    <i class="fa-solid fa-lighthouse"></i> Start Focus Timer
+                </button>
+                <button id="btn-action-shrink" class="btn-secondary-outlined btn-full mt-2">
+                    <i class="fa-solid fa-leaf"></i> Make it Smaller (Shrink)
+                </button>
+                <button class="btn-ghost btn-full mt-2" id="btn-cancel-action" style="color: var(--text-muted); border: none; padding: 12px; background: none; font-size: 0.9rem;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <!-- NEW BEACON MODAL (Input Form) -->
+        <div id="modal-new" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 class="serif-title">Set a New Beacon</h2>
+                    <p class="subtitle">Enter the task that feels too big or vague to start.</p>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <textarea id="task-input" placeholder="e.g., Write a book review..."></textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="task-deadline" style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Deadline / Due Date (Optional)</label>
+                    <input type="date" id="task-deadline" data-placeholder="Year / Month / Day" required style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:var(--text-primary); outline:none;" />
+                </div>
+
+                <button id="btn-generate" class="btn-primary btn-glow btn-full mt-3">
+                    <span id="generate-text">Create Blueprint</span>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+                <button class="btn-secondary-outlined btn-full mt-2" id="btn-cancel-new">Cancel</button>
+            </div>
+        </div>
+
+        <!-- RELIGHT MODAL -->
+        <div id="modal-relight" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 class="serif-title">Relight Task</h2>
+                    <p class="subtitle">Set a new deadline for this task to reactivate it.</p>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">New Deadline</label>
+                    <input type="date" id="relight-task-deadline" data-placeholder="Year / Month / Day" required style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:var(--text-primary); outline:none;" />
+                </div>
+                
+                <button id="btn-confirm-relight" class="btn-primary btn-glow btn-full mt-3">
+                    <i class="fa-solid fa-fire-flame-curved"></i> Relight Now
+                </button>
+                <button class="btn-secondary-outlined btn-full mt-2" id="btn-cancel-relight">Cancel</button>
+            </div>
+        </div>
+
+        <!-- CONFIRM EXIT MODAL -->
+        <div id="modal-confirm" class="modal-overlay">
+            <div class="modal-card text-center" style="padding-top: 32px; padding-bottom: 32px;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: var(--orange); margin-bottom: 16px; opacity: 0.8;"></i>
+                <h2 class="serif-title" style="margin-bottom: 8px;">Leave Focus Mode?</h2>
+                <p id="modal-confirm-message" class="subtitle" style="margin-bottom: 24px;">Exiting will discard your timer progress. Are you sure?</p>
+                
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn-secondary-outlined" id="btn-confirm-cancel" style="flex: 1;">Cancel</button>
+                    <button class="btn-primary" id="btn-confirm-ok" style="flex: 1; background: var(--orange); border-color: var(--orange); box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);">Leave</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDIT TASK MODAL -->
+        <div id="modal-edit-task" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 class="serif-title">Edit Task</h2>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Task Title</label>
+                    <textarea id="edit-task-input" style="height: 60px;"></textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <label style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Deadline (Optional)</label>
+                    <input type="date" id="edit-task-deadline" data-placeholder="Year / Month / Day" required style="width:100%; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:var(--text-primary); outline:none;" />
+                </div>
+                
+                <div style="margin-top: 24px; margin-bottom: 12px;">
+                    <h3 class="serif-title" style="font-size: 1.1rem;">Subtasks</h3>
+                </div>
+                <div id="edit-task-subtasks-container" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 8px;">
+                    <!-- Dynamically populated subtask edit inputs -->
+                </div>
+                
+                <button class="btn-secondary-outlined btn-full mt-3" id="btn-re-decompose" style="border-color: var(--gold-light); color: var(--gold-light);">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Re-decompose with AI
+                </button>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn-secondary-outlined" id="btn-cancel-edit-task" style="flex: 1;">Cancel</button>
+                    <button class="btn-primary" id="btn-save-edit-task" style="flex: 1;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDIT SUBTASK MODAL -->
+        <div id="modal-edit-subtask" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2 class="serif-title">Edit Subtask</h2>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Subtask Title</label>
+                    <textarea id="edit-subtask-title" style="height: 60px;"></textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <label style="display:block; margin-bottom:8px; font-size:0.9rem; color:var(--text-secondary);">Description</label>
+                    <textarea id="edit-subtask-desc" style="height: 80px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 16px;">
+                    <button class="btn-secondary-outlined" id="btn-cancel-edit-subtask" style="flex: 1;">Cancel</button>
+                    <button class="btn-primary" id="btn-save-edit-subtask" style="flex: 1;">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Bottom Navigation / Desktop Sidebar -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="view-home">
+                <div class="nav-icon-wrapper"><i class="fa-solid fa-house"></i><span class="nav-label">Home</span></div>
+            </a>
+            <a href="#" class="nav-item" data-target="view-list">
+                <div class="nav-icon-wrapper">
+                    <i class="fa-solid fa-list-check"></i><span class="nav-label">Beacons</span>
+                    <i class="fa-solid fa-sparkles nav-sparkle"></i>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-target="view-archive">
+                <div class="nav-icon-wrapper"><i class="fa-solid fa-box-archive"></i><span class="nav-label">Archive</span></div>
+            </a>
+            <a href="#" class="nav-item" data-target="view-profile">
+                <div class="nav-icon-wrapper"><i class="fa-solid fa-user"></i><span class="nav-label">Profile</span></div>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Toast (Fixed over app) -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span id="toast-message">Message text</span>
+    </div>
+
+    <script src="/static/app.v54.js?v=32"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.error('Service Worker registration failed', err));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstBeam Submission Story</title>
+    <link rel="icon" href="./apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #070914;
+            --surface: rgba(11, 17, 38, 0.74);
+            --surface-strong: rgba(11, 17, 38, 0.93);
+            --line: rgba(251, 191, 36, 0.2);
+            --line-strong: rgba(251, 191, 36, 0.42);
+            --text: #fdf6e3;
+            --muted: #aeb9d2;
+            --faint: #7785a3;
+            --gold: #fbbf24;
+            --gold-light: #ffe8b3;
+            --orange: #f59e0b;
+            --blue: #93c5fd;
+            --green: #86efac;
+            --red: #fda4af;
+            --shadow: rgba(0, 0, 0, 0.42);
+            --display: "Playfair Display", Georgia, serif;
+            --body: "Manrope", sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: var(--body);
+            background:
+                radial-gradient(circle at 18% 6%, rgba(251, 191, 36, 0.18), transparent 24rem),
+                radial-gradient(circle at 82% 18%, rgba(147, 197, 253, 0.12), transparent 28rem),
+                linear-gradient(135deg, #050714 0%, #0b1126 48%, #040611 100%);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.12) 0 1px, transparent 1.5px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+            background-size: 120px 120px, 96px 96px, 96px 96px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent 74%);
+            opacity: 0.55;
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        code {
+            padding: 0.14rem 0.42rem;
+            border: 1px solid rgba(251, 191, 36, 0.16);
+            border-radius: 0.5rem;
+            color: var(--gold-light);
+            background: rgba(251, 191, 36, 0.08);
+            font-family: var(--body);
+            font-weight: 800;
+            font-size: 0.9em;
+        }
+
+        .progress {
+            position: fixed;
+            inset: 0 0 auto;
+            height: 4px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .progress span {
+            display: block;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold-light));
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.45);
+        }
+
+        .nav {
+            position: fixed;
+            left: 50%;
+            top: 22px;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            width: min(1120px, calc(100vw - 36px));
+            padding: 0.72rem 0.9rem 0.72rem 1rem;
+            border: 1px solid rgba(255, 232, 179, 0.15);
+            border-radius: 999px;
+            background: rgba(3, 5, 13, 0.62);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(18px);
+            transform: translateX(-50%);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.72rem;
+            font-weight: 900;
+            color: var(--gold-light);
+            letter-spacing: -0.03em;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            box-shadow: 0 0 28px rgba(251, 191, 36, 0.2);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .nav-links a {
+            min-height: 44px;
+            display: grid;
+            place-items: center;
+            padding: 0 0.55rem;
+            border-radius: 999px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
+            color: var(--text);
+            background: rgba(251, 191, 36, 0.1);
+            outline: 2px solid rgba(251, 191, 36, 0.32);
+        }
+
+        main {
+            width: min(1180px, calc(100vw - 40px));
+            margin: 0 auto;
+        }
+
+        section {
+            position: relative;
+            min-height: 100vh;
+            padding: 8.8rem 0 6rem;
+            display: grid;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            width: max-content;
+            padding: 0.66rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: var(--gold);
+            background: rgba(251, 191, 36, 0.08);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        .dot {
+            width: 0.62rem;
+            height: 0.62rem;
+            border-radius: 999px;
+            background: var(--orange);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.9);
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+        }
+
+        h1,
+        h2 {
+            font-family: var(--display);
+            color: var(--gold-light);
+            letter-spacing: -0.035em;
+        }
+
+        h1 {
+            margin-top: 1.5rem;
+            max-width: 780px;
+            font-size: clamp(3rem, 7.2vw, 6.2rem);
+            line-height: 0.96;
+        }
+
+        h2 {
+            margin-top: 1.3rem;
+            max-width: 880px;
+            font-size: clamp(2rem, 4vw, 3.8rem);
+            line-height: 1.08;
+        }
+
+        h3 {
+            color: var(--text);
+            font-size: 1.32rem;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+        }
+
+        .lead {
+            margin-top: 1.45rem;
+            max-width: 760px;
+            color: var(--muted);
+            font-size: clamp(1.02rem, 1.65vw, 1.42rem);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        .two {
+            grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .three {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 232, 179, 0.15);
+            border-radius: 2rem;
+            background: linear-gradient(145deg, rgba(17, 24, 52, 0.84), rgba(9, 13, 31, 0.66));
+            box-shadow: 0 28px 90px var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .card.pad {
+            padding: 2rem;
+        }
+
+        .hero {
+            min-height: 112vh;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.8fr);
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-icon {
+            width: 6.5rem;
+            height: 6.5rem;
+            border-radius: 1.8rem;
+            box-shadow: 0 26px 90px rgba(251, 191, 36, 0.22);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .pill {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.72rem 1rem;
+            border: 1px solid rgba(255, 232, 179, 0.17);
+            border-radius: 999px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.045);
+            font-size: 0.92rem;
+            font-weight: 900;
+        }
+
+        .phone {
+            width: min(390px, 100%);
+            justify-self: center;
+            padding: 1rem;
+            border: 1px solid rgba(255, 232, 179, 0.22);
+            border-radius: 3rem;
+            background: linear-gradient(145deg, rgba(255, 232, 179, 0.20), rgba(255,255,255,0.03));
+            box-shadow: 0 40px 120px rgba(0,0,0,0.48);
+            transform: rotate(2deg);
+        }
+
+        .screen {
+            min-height: 640px;
+            border-radius: 2.35rem;
+            padding: 2.2rem 1.6rem;
+            background:
+                linear-gradient(180deg, rgba(11, 17, 38, 0.18), rgba(11, 17, 38, 0.98)),
+                url("./lighthouse_bg.png") center / cover;
+        }
+
+        .screen h3 {
+            margin-top: 1rem;
+            font-family: var(--display);
+            color: var(--gold-light);
+            font-size: 2.25rem;
+            line-height: 1;
+        }
+
+        .phone-list {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 1.4rem;
+        }
+
+        .phone-item {
+            padding: 0.95rem;
+            border: 1px solid rgba(255, 232, 179, 0.16);
+            border-radius: 1.1rem;
+            color: var(--text);
+            background: rgba(7, 9, 20, 0.56);
+        }
+
+        .cta {
+            margin-top: 1.4rem;
+            min-height: 56px;
+            display: grid;
+            place-items: center;
+            border-radius: 1rem;
+            color: #201300;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            font-weight: 900;
+            box-shadow: 0 0 44px rgba(251, 191, 36, 0.26);
+        }
+
+        .quote {
+            padding: 2.4rem;
+        }
+
+        .quote b {
+            display: block;
+            color: var(--gold-light);
+            font-family: var(--display);
+            font-size: clamp(2rem, 4vw, 3.6rem);
+            line-height: 1.08;
+            letter-spacing: -0.045em;
+        }
+
+        .pain-label {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            font-size: 0.82rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .quote p {
+            margin-top: 1.2rem;
+            color: var(--muted);
+            font-size: 1.18rem;
+            line-height: 1.55;
+        }
+
+        .loop {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .loop-step {
+            display: grid;
+            grid-template-columns: 3rem 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .num {
+            width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line-strong);
+            border-radius: 1rem;
+            color: var(--gold-light);
+            background: rgba(251, 191, 36, 0.12);
+            font-weight: 900;
+        }
+
+        .feature-grid {
+            margin-top: 2rem;
+        }
+
+        .feature {
+            min-height: 185px;
+            padding: 1.25rem;
+        }
+
+        .feature small {
+            color: var(--gold);
+            font-weight: 900;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
+        .feature h3 {
+            margin-top: 0.65rem;
+            font-size: 1.32rem;
+        }
+
+        .feature p {
+            margin-top: 0.55rem;
+            color: var(--muted);
+            line-height: 1.42;
+        }
+
+        .flow {
+            margin-top: 3rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .flow-row {
+            display: grid;
+            grid-template-columns: 4rem 1fr;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 232, 179, 0.14);
+            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.045);
+        }
+
+        .demo-steps {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .demo-step {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 4rem 1fr;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 232, 179, 0.14);
+            border-radius: 1.5rem;
+            color: var(--muted);
+            text-align: left;
+            background: rgba(255, 255, 255, 0.045);
+            cursor: pointer;
+            transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+        }
+
+        .demo-step:hover,
+        .demo-step:focus-visible,
+        .demo-step.active {
+            color: var(--text);
+            border-color: var(--line-strong);
+            background: rgba(251, 191, 36, 0.11);
+            transform: translateX(6px);
+            outline: none;
+        }
+
+        .demo-step .num {
+            width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+            margin-top: 0;
+            justify-self: center;
+            align-self: center;
+        }
+
+        .demo-step strong {
+            display: block;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .demo-step span:not(.num) {
+            display: block;
+            margin-top: 0.2rem;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        .demo-phone .screen {
+            min-height: 590px;
+        }
+
+        .demo-phone {
+            transform: rotate(0deg);
+            animation: none;
+        }
+
+        .demo-phone .screen-content {
+            transition: opacity 180ms var(--ease), transform 180ms var(--ease);
+        }
+
+        .architecture {
+            position: sticky;
+            top: 6rem;
+        }
+
+        .arch-card {
+            padding: 2rem;
+        }
+
+        .arch-map {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 0.9rem;
+            align-items: center;
+        }
+
+        .arch-node {
+            min-height: 144px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 232, 179, 0.16);
+            border-radius: 1.3rem;
+            background: rgba(255,255,255,0.045);
+        }
+
+        .arch-note {
+            margin-bottom: 1rem;
+            padding: 1rem 1.2rem;
+            border: 1px solid rgba(147, 197, 253, 0.22);
+            border-radius: 1.2rem;
+            color: var(--muted);
+            background: rgba(147, 197, 253, 0.07);
+            line-height: 1.45;
+        }
+
+        .agent-lanes {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1.25fr auto 1fr auto 1fr;
+            gap: 0.65rem;
+            align-items: stretch;
+        }
+
+        .agent-node {
+            min-height: 116px;
+            padding: 0.9rem;
+            border: 1px solid rgba(251, 191, 36, 0.18);
+            border-radius: 1.1rem;
+            background: rgba(251, 191, 36, 0.055);
+        }
+
+        .arch-node strong,
+        .agent-node strong,
+        .data-card strong {
+            display: block;
+            color: var(--text);
+            font-size: 1.05rem;
+        }
+
+        .arch-node span,
+        .agent-node span,
+        .data-card span {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.42;
+        }
+
+        .arrow {
+            color: var(--gold);
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: 900;
+        }
+
+        .data-flow {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .data-card {
+            min-height: 150px;
+            padding: 1.4rem;
+            border: 1px solid rgba(134, 239, 172, 0.2);
+            border-radius: 1.5rem;
+            background: rgba(134, 239, 172, 0.06);
+        }
+
+        .end {
+            text-align: center;
+            min-height: 78vh;
+        }
+
+        .end img {
+            width: 6.5rem;
+            height: 6.5rem;
+            border-radius: 1.8rem;
+            box-shadow: 0 26px 90px rgba(251, 191, 36, 0.22);
+            margin-bottom: 1.5rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 720ms var(--ease), transform 720ms var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(2deg); }
+            50% { transform: translateY(-16px) rotate(1deg); }
+        }
+
+        .phone {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @media (max-width: 860px) {
+            .nav {
+                top: 12px;
+                width: calc(100vw - 24px);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                min-height: auto;
+                padding: 7rem 0 4rem;
+            }
+
+            .hero-grid,
+            .two,
+            .three,
+                .data-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .architecture {
+                position: static;
+            }
+
+            .arch-map {
+                grid-template-columns: 1fr;
+            }
+
+            .agent-lanes {
+                grid-template-columns: 1fr;
+            }
+
+            .screen {
+                min-height: 560px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+    <nav class="nav" aria-label="Page sections">
+        <a class="brand" href="#top">
+            <img src="./apple-touch-icon.png" alt="FirstBeam icon">
+            <span>FirstBeam</span>
+        </a>
+        <div class="nav-links">
+            <a href="#pain">Pain</a>
+            <a href="#product">Product</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#safety">Safety</a>
+        </div>
+    </nav>
+
+    <main id="top">
+        <section class="hero">
+            <div class="hero-grid">
+                <div class="reveal">
+                    <img class="hero-icon" src="./apple-touch-icon.png" alt="FirstBeam icon">
+                    <div class="eyebrow" style="margin-top: 2rem;"><span class="dot"></span> Concierge Agents Submission</div>
+                    <h1>FirstBeam</h1>
+                    <p class="lead">A local-first productivity companion for the moment when a task feels too big, too vague, or too emotionally heavy to begin.</p>
+                    <div class="hero-actions">
+                        <span class="pill">Break it down</span>
+                        <span class="pill">Make it smaller</span>
+                        <span class="pill">Focus on one step</span>
+                        <span class="pill">Import / export records</span>
+                    </div>
+                </div>
+
+                <div class="phone reveal" aria-label="FirstBeam app preview">
+                    <div class="screen">
+                        <div class="eyebrow"><span class="dot"></span> Tonight's Beacon</div>
+                        <h3>Prepare for my PM interview next week</h3>
+                        <div class="phone-list">
+                            <div class="phone-item">Review one job requirement</div>
+                            <div class="phone-item">Pick two resume stories</div>
+                            <div class="phone-item">Practice one answer aloud</div>
+                        </div>
+                        <div class="cta">Start with one small step</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pain">
+            <div class="two">
+                <div class="quote card reveal">
+                    <span class="pain-label">Pain Point</span>
+                    <b>Writing a task down does not always make it easier to start.</b>
+                    <p>There are already many todo list and focus products. My real pain point was different: even after I wrote tasks down, I would still procrastinate until the last possible moment, then stay up late to finish.</p>
+                </div>
+
+                <div class="grid loop reveal">
+                    <div class="flow-row"><div class="num">1</div><div><h3>Task is recorded</h3><p class="lead" style="font-size: 1.05rem;">The list is clean, but the task still feels large.</p></div></div>
+                    <div class="flow-row"><div class="num">2</div><div><h3>Starting still feels hard</h3><p class="lead" style="font-size: 1.05rem;">The first action is unclear or intimidating.</p></div></div>
+                    <div class="flow-row"><div class="num">3</div><div><h3>Pressure becomes the engine</h3><p class="lead" style="font-size: 1.05rem;">The user acts only when delay is no longer possible.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="product">
+            <div class="reveal">
+                <div class="eyebrow"><span class="dot"></span> Product Concept</div>
+                <h2>Why “FirstBeam”?</h2>
+                <p class="lead">When the whole task feels dark, the user does not need a perfect plan first. They need the first beam of clarity: one small action that feels possible enough to begin.</p>
+            </div>
+
+            <div class="three feature-grid">
+                <div class="feature card reveal"><small>01</small><h3>Create a beacon</h3><p>The user enters one stressful task, and FirstBeam turns it into a small set of approachable subtasks.</p></div>
+                <div class="feature card reveal"><small>02</small><h3>Make it smaller</h3><p>With a Gemini key, shrink can generate new micro-steps; without one, it falls back locally.</p></div>
+                <div class="feature card reveal"><small>03</small><h3>Move into focus</h3><p>The product connects planning with action through a timer-centered focus mode.</p></div>
+                <div class="feature card reveal"><small>04</small><h3>Relight later</h3><p>Archived or overdue tasks can return with a new deadline, without shaming the user.</p></div>
+                <div class="feature card reveal"><small>05</small><h3>Analyze habits</h3><p>The profile area can turn completed timing history into guidance for future breakdowns.</p></div>
+                <div class="feature card reveal"><small>06</small><h3>Import / export records</h3><p>Users can download a local JSON backup and restore previous records from that file.</p></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="two">
+                <div class="reveal">
+                    <div class="eyebrow"><span class="dot"></span> Demo Story</div>
+                    <h2>The smoothest video flow</h2>
+                    <p class="lead">Click each step to view how FirstBeam guides a user from one overwhelming task to a smaller action, focus mode, habit analysis, and local backup.</p>
+                    <div class="demo-steps">
+                        <button class="demo-step active" type="button" data-demo="0"><span class="num">1</span><span><strong>Enter the overwhelming task</strong><span>Start with the task exactly as it feels.</span></span></button>
+                        <button class="demo-step" type="button" data-demo="1"><span class="num">2</span><span><strong>Generate a beacon blueprint</strong><span>Turn it into smaller named actions.</span></span></button>
+                        <button class="demo-step" type="button" data-demo="2"><span class="num">3</span><span><strong>Click “Make it smaller”</strong><span>Shrink the next step when resistance remains.</span></span></button>
+                        <button class="demo-step" type="button" data-demo="3"><span class="num">4</span><span><strong>Start focus mode</strong><span>Move directly from planning into doing.</span></span></button>
+                        <button class="demo-step" type="button" data-demo="4"><span class="num">5</span><span><strong>Show profile intelligence</strong><span>Analyze habits, then export/import records locally.</span></span></button>
+                    </div>
+                </div>
+                <div class="phone demo-phone reveal" aria-live="polite">
+                    <div class="screen">
+                        <div class="screen-content" id="demoPreview">
+                            <div class="eyebrow"><span class="dot"></span> New Beacon</div>
+                            <h3>Prepare for my PM interview next week</h3>
+                            <div class="phone-list">
+                                <div class="phone-item">Optional deadline</div>
+                                <div class="phone-item">Supportive tone preference</div>
+                            </div>
+                            <div class="cta">Create Blueprint</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture">
+            <div class="architecture reveal">
+                <div class="eyebrow"><span class="dot"></span> Architecture</div>
+                <h2>Local-first frontend, agent-driven backend.</h2>
+                <p class="lead">The current repo contains both a mobile-first app experience and a real Google ADK multi-agent backend. The demoed frontend is hybrid: persistent state stays local, while AI generation can use the user’s own Gemini key.</p>
+
+                <div class="arch-card card" style="margin-top: 3rem;">
+                    <div class="arch-note">
+                        <strong style="color: var(--blue);">Why agents?</strong>
+                        A single to-do list only stores work. FirstBeam needs different behaviors for different moments: planning a new task, shrinking a step that still feels too big, and reflecting after progress.
+                    </div>
+                    <div class="arch-map">
+                        <div class="arch-node"><strong>FirstBeam UI</strong><span>Home, Beacons, Tower, Focus, Relight, Profile.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="arch-node"><strong>localStorage</strong><span><code>firstbeam_state</code>, habit profile, optional API key/model, local preferences.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="arch-node"><strong>Gemini / ADK</strong><span>Browser-side intake, shrink, and habit analysis can call Gemini; backend defines ADK agents.</span></div>
+                    </div>
+                    <div class="arch-map" style="margin-top: 1rem;">
+                        <div class="arch-node"><strong>Supervisor</strong><span>Classifies intent, sanitizes input, and routes requests.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="arch-node"><strong>Specialists</strong><span>Breakdown, shrink, and reflection agents handle different user moments.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="arch-node"><strong>Auditor + Output</strong><span>Softens tone and normalizes structured output for the UI.</span></div>
+                    </div>
+                    <div class="agent-lanes">
+                        <div class="agent-node"><strong>User Request</strong><span>New task, make smaller, or progress reflection.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="agent-node"><strong>Supervisor Agent</strong><span>Understands intent, extracts tone context, checks safety.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="agent-node"><strong>Specialist Route</strong><span>Breakdown Agent / Shrink Agent / Reflection Agent.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="agent-node"><strong>Auditor Agent</strong><span>Removes harsh or shaming language.</span></div>
+                        <div class="arrow">→</div>
+                        <div class="agent-node"><strong>Structured Output</strong><span>Small steps rendered back into the mobile UI.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="safety">
+            <div class="reveal">
+                <div class="eyebrow"><span class="dot"></span> Data Safety</div>
+                <h2>User records stay on the user's laptop or phone.</h2>
+                <p class="lead">FirstBeam’s strongest accurate privacy claim is local-first persistence: previous tasks, stats, and habit profile data are stored in the browser’s localStorage, not in a project-owned server database.</p>
+            </div>
+
+            <div class="data-flow reveal">
+                <div class="data-card"><strong>Use the app</strong><span>Create beacons, finish focus sessions, archive, relight, and analyze habits.</span></div>
+                <div class="arrow">→</div>
+                <div class="data-card"><strong>Stored locally</strong><span><code>firstbeam_state</code> and <code>firstbeam_habit_profile</code> live in browser localStorage.</span></div>
+                <div class="arrow">→</div>
+                <div class="data-card"><strong>Portable backup</strong><span>Export downloads <code>firstbeam_backup.json</code>; Import restores from a local JSON file.</span></div>
+            </div>
+
+            <div class="three feature-grid">
+                <div class="feature card reveal"><small>Privacy</small><h3>No app database for task records</h3><p>The repository does not include server-side persistence for the user's task history.</p></div>
+                <div class="feature card reveal"><small>AI nuance</small><h3>Model calls are optional</h3><p>With a Gemini key, intake, shrink, and habit analysis can send relevant text for that request. Persistent records remain local.</p></div>
+                <div class="feature card reveal"><small>Security</small><h3>No hardcoded API secrets</h3><p>The app uses a user-supplied API key model instead of committing private keys into the codebase.</p></div>
+            </div>
+        </section>
+
+        <section class="end">
+            <div class="reveal">
+                <img src="./apple-touch-icon.png" alt="FirstBeam icon">
+                <h2>From overwhelm to action, one small step at a time.</h2>
+                <p class="lead" style="margin-left: auto; margin-right: auto;">FirstBeam combines supportive UX, local-first data handling, and an agent-driven workflow to make starting feel possible.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const demoScreens = [
+            {
+                tag: "New Beacon",
+                title: "Prepare for my PM interview next week",
+                items: ["Optional deadline", "Supportive tone preference"],
+                cta: "Create Blueprint"
+            },
+            {
+                tag: "Beacon Blueprint",
+                title: "A clear path appears",
+                items: ["Review one job requirement", "Pick two resume stories", "Practice one answer aloud"],
+                cta: "Start with the first step"
+            },
+            {
+                tag: "Make It Smaller",
+                title: "Shrink the resistance",
+                items: ["Open the job description", "Highlight one requirement", "Write one matching story title"],
+                cta: "This feels doable"
+            },
+            {
+                tag: "Focus Mode",
+                title: "10:00",
+                items: ["Current step: answer one question aloud", "Pause, extend, or finish"],
+                cta: "Finish step"
+            },
+            {
+                tag: "Profile Intelligence",
+                title: "Patterns stay useful and portable",
+                items: ["Analyze Habits", "Saved local habit profile", "Export / Import local JSON"],
+                cta: "Export backup"
+            }
+        ];
+
+        const preview = document.getElementById("demoPreview");
+        document.querySelectorAll("[data-demo]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const data = demoScreens[Number(button.dataset.demo)];
+                document.querySelectorAll("[data-demo]").forEach((el) => el.classList.toggle("active", el === button));
+                preview.style.opacity = "0";
+                preview.style.transform = "translateY(12px)";
+                setTimeout(() => {
+                    preview.innerHTML = `
+                        <div class="eyebrow"><span class="dot"></span> ${data.tag}</div>
+                        <h3>${data.title}</h3>
+                        <div class="phone-list">${data.items.map((item) => `<div class="phone-item">${item}</div>`).join("")}</div>
+                        <div class="cta">${data.cta}</div>
+                    `;
+                    preview.style.opacity = "1";
+                    preview.style.transform = "translateY(0)";
+                }, 160);
+            });
+        });
+
+        const progress = document.getElementById("progress");
+        const updateProgress = () => {
+            const max = document.documentElement.scrollHeight - innerHeight;
+            progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`;
+        };
+
+        addEventListener("scroll", updateProgress, { passive: true });
+        addEventListener("resize", updateProgress);
+        updateProgress();
+
+        const reveal = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) entry.target.classList.add("visible");
+            });
+        }, { threshold: 0.16 });
+
+        document.querySelectorAll(".reveal").forEach((el) => reveal.observe(el));
+    </script>
+</body>
+</html>

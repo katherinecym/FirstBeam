@@ -1,0 +1,8 @@
+# Ignore Python backend files for static Vercel deployment
+app/
+*.py
+requirements.txt
+Makefile
+.venv/
+.env
+__pycache__/
