@@ -7,6 +7,7 @@ FirstBeam is a local-first AI productivity companion that helps people overcome 
 ## 1. Brief Introduction
 For a highly visual, styled overview of the project's story, problem statement, and demo flow, **please double-click the `firstbeam-intro.html` file in this folder to open it in your web browser**.
 
+youtube link: https://www.youtube.com/watch?v=PRwPWTr3OFY
 ---
 
 ## 2. Problem, Solution, Value
