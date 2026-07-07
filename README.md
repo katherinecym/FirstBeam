@@ -2,12 +2,13 @@
 
 FirstBeam is a local-first AI productivity companion that helps people overcome procrastination by turning overwhelming tasks into small, emotionally manageable next steps. It combines a **Google ADK multi-agent backend architecture** with a mobile-first **Serverless Progressive Web App (PWA)** interface focused on starting rather than simply listing work.
 
+Youtube link: https://www.youtube.com/watch?v=PRwPWTr3OFY
+
 ---
 
 ## 1. Brief Introduction
 For a highly visual, styled overview of the project's story, problem statement, and demo flow, **please double-click the `firstbeam-intro.html` file in this folder to open it in your web browser**.
 
-youtube link: https://www.youtube.com/watch?v=PRwPWTr3OFY
 ---
 
 ## 2. Problem, Solution, Value
